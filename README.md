@@ -1,2 +1,2 @@
-# data_pipeline_dagster
+# data_pipelines_dagster
 Data pipelinein dagster library
