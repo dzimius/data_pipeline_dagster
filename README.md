@@ -25,15 +25,18 @@ This file contains simple Dagster operations like fetching data or applying the 
 
 This file contains Dagster jobs which are built on top of the Dagster ops:
 
-etl_initial_job() - creates tables and fetches comments and posts data
+ - etl_initial_job() - creates tables and fetches comments and posts data
 
-mock_comment_job() - simulates mock data and inserts this data using the SCD2 model
+ - mock_comment_job() - simulates mock data and inserts this data using the SCD2 model
 
 (dagster_schedule.py):
 
 This file schedules mock_comment_job() to run every one minute.
 
+
 Other files (resources, config, repository) are used to configure the Dagster pipelines.
+
+---
 
 Dagster:
 
