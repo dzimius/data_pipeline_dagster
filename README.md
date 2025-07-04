@@ -1,7 +1,7 @@
 # data_pipelines_dagster
-Data pipelines project which use dagster as a scheduler tool. 
-In this project I get Fake API data (jsonplaceholder), tranform it and insert into prepared SQL tables. In next steps I create simualated new and edited data. I perform Slowing Changing Dimension (type 2) to keep consistency of data. 
-I created two dagster jobs. The first one is a 'initial run' that create new tables in local database. The second job is a simulation of new and edited fake data. I schedule the second job so that it runs every 1 minute which simulate fetching the online data with the API. The tables are updating contiuously if the dagster server is running. 
+Data pipelines project which uses Dagster as a scheduling tool. In this project, I get fake API data (from JSONPlaceholder), transform it, and insert it into prepared SQL tables. In the next steps, I create simulated new and edited data. I perform Slowly Changing Dimension (type 2) processing to keep data consistency.
+
+I created two Dagster jobs. The first one is an 'initial run' that creates new tables in the local database. The second job simulates new and edited fake data. I schedule the second job to run every 1 minute, which simulates fetching online data from the API. The tables keep updating continuously as long as the Dagster server is running. 
 
 
 The diagram below illustrates the overall workflow:
@@ -18,22 +18,23 @@ Project based on the Fake API data from from https://jsonplaceholder.typicode.co
 
 ## 🔧 Project Overview
 
-(`insert_data.ipynb`) :
-- The project begins by loading the CSV file into a Python notebook.
-- Additional random client data (first name, last name, email) is generated using the 'names' library.
-- The enriched dataset is loaded into a SQL table.
+(`data_loader_dagster.py`) :
+Main python module which contains DataLoadManager class and SQL schema queries.
 
-This enriched data in the SQL table serves as the starting point for creating a Star Schema
+(`dagster_ops.py`): 
+This file conatins dagster simple operation like fetch data or apply Slowly Changing Dimenson model. It is based on the DataLoadManager class functions. 
 
-(`data_clean_create_wh.ipynb`): 
-- Load data into Python Notebook using SQLAlchemy
-- Perform Data Analysis and Cleaning with pandas
-- Predict Product Category and Color based on Product Description using a transformer-based LLM model
-- Prepare Dimensional Data (split data, create surrogate keys)
-- Create the database schema using SQL queries
-- Insert dimensional and fact data using BULK INSERT
+(`dagster_jobs.py`):
+This file contains dagster jobs which are based on dagster ops.
+ - etl_initial_job() - contains tables creation and fetching comments and posts data
+ - mock_comment_job() - contains simulation of mock data and insertion of this data with the SCD2 model
 
-Dimensional Data Model:
+(`dagster_jobs.py`):
+This file schedule mock_comment_job() every one minut
+
+Other files (resources, config, repository) are used to configurate dagster pipelines.
+
+Slowly Changing DImension 2 (SCD2) Data Model:
 
 
 ![Star Schema Overview](dagster_runs.png)
