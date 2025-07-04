@@ -3,11 +3,6 @@ Data pipelines project which uses Dagster as a scheduling tool. In this project,
 
 I created two Dagster jobs. The first one is an 'initial run' that creates new tables in the local database. The second job simulates new and edited fake data. I schedule the second job to run every 1 minute, which simulates fetching online data from the API. The tables keep updating continuously as long as the Dagster server is running. 
 
-
-The diagram below illustrates the overall workflow:
-
-![diagram](dagster_jobs.png)
-
 ---
 
 ## 📦 Dataset
@@ -18,21 +13,34 @@ Project based on the Fake API data from from https://jsonplaceholder.typicode.co
 
 ## 🔧 Project Overview
 
-(`data_loader_dagster.py`) :
-Main python module which contains DataLoadManager class and SQL schema queries.
+(data_loader_dagster.py):
 
-(`dagster_ops.py`): 
-This file conatins dagster simple operation like fetch data or apply Slowly Changing Dimenson model. It is based on the DataLoadManager class functions. 
+Main Python module which contains the DataLoadManager class and SQL schema queries.
 
-(`dagster_jobs.py`):
-This file contains dagster jobs which are based on dagster ops.
- - etl_initial_job() - contains tables creation and fetching comments and posts data
- - mock_comment_job() - contains simulation of mock data and insertion of this data with the SCD2 model
+(dagster_ops.py):
 
-(`dagster_jobs.py`):
-This file schedule mock_comment_job() every one minut
+This file contains simple Dagster operations like fetching data or applying the Slowly Changing Dimension model. It is based on the DataLoadManager class functions.
 
-Other files (resources, config, repository) are used to configurate dagster pipelines.
+(dagster_jobs.py):
+
+This file contains Dagster jobs which are built on top of the Dagster ops:
+
+etl_initial_job() - creates tables and fetches comments and posts data
+
+mock_comment_job() - simulates mock data and inserts this data using the SCD2 model
+
+(dagster_schedule.py):
+
+This file schedules mock_comment_job() to run every one minute.
+
+Other files (resources, config, repository) are used to configure the Dagster pipelines.
+
+Dagster:
+
+In a dagster GUI we can see two jobs available. etl_initial_job() should be running once at the start. Then in the mock_comment_job() 'Every minute' ribbon could be clicked to fetch and insert simulated data:
+![diagram](dagster_jobs.png)
+
+In the 'Runs' Tab every job run could be find with the success/error information.
 
 Slowly Changing DImension 2 (SCD2) Data Model:
 
