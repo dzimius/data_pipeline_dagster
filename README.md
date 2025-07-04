@@ -43,16 +43,12 @@ Dagster:
 In a dagster GUI we can see two jobs available. etl_initial_job() should be running once at the start. Then in the mock_comment_job() 'Every minute' ribbon could be clicked to fetch and insert simulated data:
 ![diagram](dagster_jobs.png)
 
-In the 'Runs' Tab every job run could be find with the success/error information.
+In the 'Runs' Tab every job run could be find with the success/error information:
+![diagram](dagster_runs.png)
 
 Slowly Changing DImension 2 (SCD2) Data Model:
+To implement SCD2, three columns are added to the SQL table: valid_start, valid_end, and is_valid. They store, respectively, the data fetch date, the end date of validity, and a flag that shows if the row is currently valid.
 
-
-![Star Schema Overview](dagster_runs.png)
-
-## 📊 Data Analysis (SQL & Power BI)
-
-Based on the created Data Warehouse, key statistics are calculated using SQL queries (`query_wh.ipynb`).
-
-Additionally, a Power BI report has been created to visualize the data:  
+![Star Schema Overview](sql_table_scd2.png)
+ 
 
