@@ -50,7 +50,7 @@ Slowly Changing DImension 2 (SCD2) Data Model:
 To implement SCD2, three columns are added to the SQL table: valid_start, valid_end, and is_valid. They store, respectively, the data fetch date, the end date of validity, and a flag that shows if the row is currently valid.
 
 ![Star Schema Overview](sql_table_scd2_v2.png)
-If there are new edited data, the old one are automatically treated as not valid 
+If there are new edited data, the old one are automatically treated as not valid (postId = 75, id = 374)
 ![Star Schema Overview](sql_table_scd2.png)
  
 
